@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
 
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const CameraScreen()),
+              MaterialPageRoute(builder: (_) => CameraScreen(session: session)),
             );
           },
           child: const Text("New Scan"),

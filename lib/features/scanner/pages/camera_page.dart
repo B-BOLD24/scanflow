@@ -1,10 +1,13 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-
+import 'package:scanflow_new/core/services/capture_services.dart';
 import '../../../main.dart';
+import 'dart:io';
 
 class CameraScreen extends StatefulWidget {
-  const CameraScreen({super.key});
+  final Directory session;
+
+  const CameraScreen({super.key, required this.session});
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -43,17 +46,13 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     if (!initialized) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
       body: Stack(
         children: [
-          Center(
-            child: CameraPreview(controller),
-          ),
+          Center(child: CameraPreview(controller)),
           Positioned(
             bottom: 40,
             left: 0,
@@ -61,8 +60,17 @@ class _CameraScreenState extends State<CameraScreen> {
             child: Center(
               child: FloatingActionButton(
                 onPressed: () async {
-                  final XFile file = await controller.takePicture();
-                  debugPrint(file.path);
+                  final XFile image = await controller.takePicture();
+
+                  final savedFile = await CaptureService.saveImage(
+                    source: File(image.path),
+                    session: widget.session,
+                  );
+
+                  debugPrint("Saved to:");
+                  debugPrint(savedFile.path);
+
+                  await File(image.path).delete();
                 },
                 child: const Icon(Icons.camera_alt),
               ),
