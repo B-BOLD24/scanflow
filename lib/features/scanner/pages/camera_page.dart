@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:scanflow_new/core/services/capture_services.dart';
 import '../../../main.dart';
 import 'dart:io';
+import '../../../core/services/gallery_service.dart';
 
 class CameraScreen extends StatefulWidget {
   final Directory session;
@@ -14,13 +15,24 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
+  List<File> pages = [];
   late CameraController controller;
   bool initialized = false;
+  bool isCapturing = false;
 
   @override
   void initState() {
     super.initState();
     initCamera();
+    loadPages();
+  }
+
+  Future<void> loadPages() async {
+    pages = await GalleryService.getPages(widget.session);
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> initCamera() async {
@@ -59,19 +71,37 @@ class _CameraScreenState extends State<CameraScreen> {
             right: 0,
             child: Center(
               child: FloatingActionButton(
-                onPressed: () async {
-                  final XFile image = await controller.takePicture();
+                onPressed: isCapturing
+                    ? null
+                    : () async {
+                        setState(() {
+                          isCapturing = true;
+                        });
 
-                  final savedFile = await CaptureService.saveImage(
-                    source: File(image.path),
-                    session: widget.session,
-                  );
+                        try {
+                          final XFile image = await controller.takePicture();
 
-                  debugPrint("Saved to:");
-                  debugPrint(savedFile.path);
+                          final savedFile = await CaptureService.saveImage(
+                            source: File(image.path),
+                            session: widget.session,
+                          );
 
-                  await File(image.path).delete();
-                },
+                          debugPrint("Saved to:");
+                          debugPrint(savedFile.path);
+
+                          await File(image.path).delete();
+
+                          await loadPages();
+
+                          debugPrint("Pages in session: ${pages.length}");
+                        } finally {
+                          if (mounted) {
+                            setState(() {
+                              isCapturing = false;
+                            });
+                          }
+                        }
+                      },
                 child: const Icon(Icons.camera_alt),
               ),
             ),
