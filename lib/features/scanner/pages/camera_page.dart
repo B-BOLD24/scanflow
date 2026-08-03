@@ -4,6 +4,7 @@ import 'package:scanflow_new/core/services/capture_services.dart';
 import '../../../main.dart';
 import 'dart:io';
 import '../../../core/services/gallery_service.dart';
+import '../widgets/filmstrip.dart';
 
 class CameraScreen extends StatefulWidget {
   final Directory session;
@@ -65,6 +66,12 @@ class _CameraScreenState extends State<CameraScreen> {
       body: Stack(
         children: [
           Center(child: CameraPreview(controller)),
+          Positioned(
+            bottom: 120,
+            left: 0,
+            right: 0,
+            child: FilmStrip(pages: pages),
+          ),
           Positioned(
             bottom: 40,
             left: 0,
