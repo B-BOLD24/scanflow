@@ -111,3 +111,31 @@ FINAL
 Reason
 
 Fast capture with later verification.
+
+---
+
+Decision
+
+ProcessingService owns the complete document processing pipeline.
+
+Status
+
+FINAL
+
+Reason
+
+Centralizes image loading, memory ownership, and orchestration while preventing duplicate image reads.
+
+---
+
+Decision
+
+Separate DetectionResult from ProcessedDocument.
+
+Status
+
+FINAL
+
+Reason
+
+DetectionResult represents only document detection, while ProcessedDocument represents the final output of the processing pipeline. This keeps models focused and avoids a growing "God Object".

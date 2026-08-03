@@ -123,7 +123,19 @@ ProcessingService
 
 ↓
 
-Processed Image
+Document Detection
+
+↓
+
+Perspective Correction
+
+↓
+
+Image Enhancement
+
+↓
+
+Processed Document
 
 ↓
 
@@ -175,15 +187,39 @@ Capture
 
 ↓
 
-Document Detection
+Temporary Image
 
 ↓
 
-Perspective Correction
+ProcessingService
 
 ↓
 
-Image Enhancement
+ImagePreprocessor
+
+↓
+
+ContourDetector
+
+↓
+
+CornerOrdering
+
+↓
+
+DocumentDetector
+
+↓
+
+PerspectiveCorrector
+
+↓
+
+ImageEnhancer
+
+↓
+
+ProcessedDocument
 
 ↓
 

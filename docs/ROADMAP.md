@@ -14,14 +14,17 @@
 
 ## Phase 2 — Document Processing
 
-- [ ] OpenCV Integration
-- [ ] Document Detection
-- [ ] Perspective Correction
+## Phase 2 — Document Processing
+
+- [x] OpenCV Integration
+- [x] Document Detection
+- [x] Perspective Correction
 - [ ] Auto Crop
-- [ ] Image Enhancement
+- [x] Image Enhancement
 - [ ] Background Processing
 - [ ] Thumbnail Generation
 - [ ] Manual Corner Adjustment
+- [ ] Camera Integration (Processing Pipeline)
 
 ---
 
